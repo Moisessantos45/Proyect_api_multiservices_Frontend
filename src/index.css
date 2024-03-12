@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.margin {
+  margin: 10px auto;
+}
+
+.altura {
+  height: 75.5vh;
+}
+
+.scroollBat{
+  scrollbar-width: none;
+}
+
+.textWidthFitContent {
+  width: fit-content;
+}
