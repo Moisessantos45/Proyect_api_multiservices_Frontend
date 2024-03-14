@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import UrlBackend from '../Config/UrlBackend'
 import toastify from '../Utils/Utils'
+import Loading from '../Components/Loading'
 
 const Extract = (): JSX.Element => {
   const [file, setFile] = useState<File[] | null>([])
   const [dataDoc, setData] = useState<string[]>([])
+  const [loading, setLoading] = useState<boolean>(false)
   const location = useLocation()
   const pathParts = location.pathname.split('/').slice(1, 2).join('')
   const params = useParams()
@@ -14,7 +16,7 @@ const Extract = (): JSX.Element => {
   const handelChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const selectFiles =
       e.target.files !== null ? Array.from(e.target.files) : []
-    setFile(selectFiles)
+    setFile((prev) => (prev === null ? selectFiles : [...prev, ...selectFiles]))
   }
 
   useEffect(() => {
@@ -28,6 +30,7 @@ const Extract = (): JSX.Element => {
     if (file == null || file.length === 0) {
       return
     }
+    setLoading(true)
     const uplodasFiles = await Promise.all(
       file.map(async (file) => {
         const formData = new FormData()
@@ -55,7 +58,9 @@ const Extract = (): JSX.Element => {
         }
       })
     )
+    setLoading(false)
     setData(uplodasFiles)
+    setFile([])
     toastify('Texto extraido', true)
   }
 
@@ -76,6 +81,7 @@ const Extract = (): JSX.Element => {
 
   return (
     <main className=" bg-white p-2 m-0 w-full flex justify-center h-[83vh] sm:min-h-[99vh] items-center flex-wrap overflow-y-auto scroollBat">
+      {loading && <Loading />}
       <div
         className={`relative flex flex-col justify-center w-10/12 sm:w-7/12 lg:w-5/12 break-words mb-6 margin shadow-lg shadow-grey-400 rounded-lg border-0 max-h-[39vh] ${
           file !== null && file?.length > 0

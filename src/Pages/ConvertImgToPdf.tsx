@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import UrlBackend from '../Config/UrlBackend'
 import toastify from '../Utils/Utils'
 import { MagicMotion } from 'react-magic-motion'
+import Loading from '../Components/Loading'
 
 const ConvertImgToPdf = (): JSX.Element => {
   const { id } = useParams<{ id: string }>()
@@ -12,6 +13,7 @@ const ConvertImgToPdf = (): JSX.Element => {
   const [orientacion, setOrientation] = useState<string>('')
   const [nameFolder, setNameFolder] = useState<string>('')
   const [elementSelected, setElementSelected] = useState<number>(-1)
+  const [loading, setLoading] = useState<boolean>(false)
   const optionsOrientation: string[] = ['portrait', 'landscape', 'automatico']
 
   const handelChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -61,9 +63,13 @@ const ConvertImgToPdf = (): JSX.Element => {
           'Content-Type': 'multipart/form-data'
         }
       })
-
       toastify('Image save success', true)
       toastify('Converting to PDF', true)
+      setFiles(null)
+      setFilesRender([])
+      setNameFolder('')
+      setOrientation('')
+      setLoading(true)
       const response = await UrlBackend(
         `convertImgToPdf/${id}?orientacion=${orientacion}&nameFolder=${nameFolder}`,
         {
@@ -73,16 +79,15 @@ const ConvertImgToPdf = (): JSX.Element => {
       const responseData: Blob = response.data !== null ? response.data : null
       saveAs(responseData, `${nameFolder}.pdf`)
       toastify('successful conversion ', true)
-      setFiles(null)
-      setFilesRender([])
-      setNameFolder('')
-      setOrientation('')
+      setLoading(false)
     } catch (error) {
       toastify('Error al convertir', false)
     }
   }
+  // if (!loading) return <Loading />-
   return (
     <main className=" w-full m-auto flex justify-center sm:items-center h-[85vh] sm:h-[99vh] sm:p-2 pt-3 scroollBat">
+      {loading && <Loading />}
       <form
         className={`gap-1 ${
           filesRender.length === 0

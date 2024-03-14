@@ -4,12 +4,14 @@ import UrlBackend from '../Config/UrlBackend'
 import { saveAs } from 'file-saver'
 import toastify from '../Utils/Utils'
 import { MagicMotion } from 'react-magic-motion'
+import Loading from '../Components/Loading'
 
 const ConvertImgToWord = (): JSX.Element => {
   const { id } = useParams<{ id: string }>()
   const [files, setFiles] = useState<File[] | null>(null)
   const [filesRender, setFilesRender] = useState<string[]>([])
   const [nameFolder, setNameFolder] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
 
   const handelChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (e.target.files === null) return
@@ -50,6 +52,10 @@ const ConvertImgToWord = (): JSX.Element => {
 
       toastify('Images save success', true)
       toastify('Converting to WORD', true)
+      setFiles(null)
+      setFilesRender([])
+      setNameFolder('')
+      setLoading(true)
       const response = await UrlBackend(
         `convertImgToDoc/${id}?nameFolder=${nameFolder}`,
         {
@@ -58,16 +64,15 @@ const ConvertImgToWord = (): JSX.Element => {
       )
       const responseData: Blob = response.data !== null ? response.data : null
       saveAs(responseData, `${nameFolder}.docx`)
-      setFiles(null)
-      setFilesRender([])
-      setNameFolder('')
       toastify('Convert success', true)
     } catch (error) {
       toastify('Error al convertir', false)
     }
+    setLoading(false)
   }
   return (
     <main className=" w-full m-auto flex justify-center sm:items-center h-[85vh] sm:h-[95vh] sm:p-5 pt-3 scroollBat">
+      {loading && <Loading />}
       <form
         className={`gap-1 ${
           filesRender.length < 1

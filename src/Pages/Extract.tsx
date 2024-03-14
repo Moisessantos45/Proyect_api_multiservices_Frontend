@@ -23,7 +23,7 @@ const Extract = (): JSX.Element => {
   const handelChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const selectFiles =
       e.target.files !== null ? Array.from(e.target.files) : []
-    setFile(selectFiles)
+    setFile((prev) => (prev === null ? selectFiles : [...prev, ...selectFiles]))
   }
 
   useEffect(() => {
@@ -79,6 +79,7 @@ const Extract = (): JSX.Element => {
     )
     setFiles(uplodasFiles)
     setUploadProgress(100)
+    setFile([])
     toastify('Imagenes extraidas', true)
   }
   const deleteFile = (index: number): void => {
