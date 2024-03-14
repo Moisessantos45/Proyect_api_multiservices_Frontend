@@ -3,7 +3,7 @@ const Footer = (): JSX.Element => {
   return (
     <footer className=" relative bg-gray-900 px-4 pt-5 h-28 sm:h-auto flex justify-center items-center">
       <p className="py-5 text-center text-gray-300">
-        © {fecha} Api | Todos los derechos reservados
+        © {fecha} Api DocuExtract| Todos los derechos reservados Moises santos hernandez
       </p>
     </footer>
   )
