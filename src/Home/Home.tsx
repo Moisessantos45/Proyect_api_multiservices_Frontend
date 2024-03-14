@@ -8,10 +8,10 @@ const Home = (): JSX.Element => {
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-lg">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-slate-800 sm:text-4xl xl:text-5xl">
-            Herramientas de extracción
+            Extraction tools
           </h2>
           <p className="mt-4 text-base text-gray-700 sm:mt-8">
-            Selecciona la herramienta que necesitas
+            Select the tool you need.
           </p>
         </div>
         <div className="sm:col-gap-12 row-gap-12 md:ga mt-10 grid grid-cols-1 sm:mt-16 sm:grid-cols-2 md:grid-cols-3 xl:mt-20">
@@ -43,7 +43,7 @@ const Home = (): JSX.Element => {
               ExtractoPDF
             </h3>
             <p className="mt-5 text-base text-gray-700">
-              Extrae el texto de un PDF
+              Extract text from a PDF
             </p>
           </Link>
           <Link
@@ -75,7 +75,7 @@ const Home = (): JSX.Element => {
               ExtractoDoc
             </h3>
             <p className="mt-5 text-base text-gray-700">
-              Extrae el texto de un DOCX
+              Extract text from a DOCX
             </p>
           </Link>
           <Link
@@ -106,7 +106,7 @@ const Home = (): JSX.Element => {
               ConvertImgToPdf
             </h3>
             <p className="mt-5 text-base text-gray-700">
-              Convierte imagenes a PDF
+              Convert images to PDF
             </p>
           </Link>
           <Link
@@ -138,7 +138,7 @@ const Home = (): JSX.Element => {
               ConvertImgToWord
             </h3>
             <p className="mt-5 text-base text-gray-700">
-              Convierte imagenes a WORD
+              Convert images to WORD
             </p>
           </Link>
           <Link
@@ -167,7 +167,7 @@ const Home = (): JSX.Element => {
             </svg>
             <h3 className="mt-10 text-xl font-bold text-slate-800">ImageOut</h3>
             <p className="mt-5 text-base text-gray-700">
-              Extrae las imagenes de un DOCX
+              Extract images from a DOCX
             </p>
           </Link>
           <Link
@@ -198,7 +198,7 @@ const Home = (): JSX.Element => {
               SVGConvert
             </h3>
             <p className="mt-5 text-base text-gray-700">
-              Convertir SVG a PNG, JPG
+              Convert SVG to PNG, JPG
             </p>
           </Link>
         </div>
