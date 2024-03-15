@@ -1,5 +1,5 @@
 import { saveAs } from 'file-saver'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import UrlBackend from '../Config/UrlBackend'
 import toastify from '../Utils/Utils'
@@ -14,7 +14,8 @@ const ConvertImgToPdf = (): JSX.Element => {
   const [nameFolder, setNameFolder] = useState<string>('')
   const [elementSelected, setElementSelected] = useState<number>(-1)
   const [loading, setLoading] = useState<boolean>(false)
-  const optionsOrientation: string[] = ['portrait', 'landscape', 'automatico']
+  const optionsOrientation: string[] = ['portrait', 'landscape', 'automatic']
+  const [adjust, setAdjust] = useState<boolean>(false)
 
   const handelChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (e.target.files !== null) {
@@ -27,6 +28,12 @@ const ConvertImgToPdf = (): JSX.Element => {
       setFilesRender((prev) => [...prev, ...filesArrRender])
     }
   }
+
+  useEffect(() => {
+    if (orientacion === 'automatic') {
+      setAdjust(false)
+    }
+  }, [orientacion])
 
   const deleteFile = (index: number): void => {
     if (files === null) return
@@ -69,9 +76,10 @@ const ConvertImgToPdf = (): JSX.Element => {
       setFilesRender([])
       setNameFolder('')
       setOrientation('')
+      setAdjust(false)
       setLoading(true)
       const response = await UrlBackend(
-        `convertImgToPdf/${id}?orientacion=${orientacion}&nameFolder=${nameFolder}`,
+        `convertImgToPdf/${id}?orientacion=${orientacion}&nameFolder=${nameFolder}&adjust=${adjust}`,
         {
           responseType: 'blob'
         }
@@ -109,7 +117,7 @@ const ConvertImgToPdf = (): JSX.Element => {
               {optionsOrientation.map((item, i) => (
                 <span
                   key={i}
-                  className={`border border-blue-600 rounded-md text-blue-600 sm:w-24 w-36 flex justify-center items-center cursor-pointer hover:bg-blue-500 hover:text-white hover:font-bold ${
+                  className={`border border-blue-600 rounded-md text-blue-600 sm:w-24 w-36 flex justify-center items-center cursor-pointer hover:bg-blue-500 hover:text-white hover:font-bold capitalize ${
                     i === elementSelected ? 'bg-blue-600 text-white' : ''
                   } `}
                   onClick={() => {
@@ -120,6 +128,18 @@ const ConvertImgToPdf = (): JSX.Element => {
                   {item}
                 </span>
               ))}
+              <span
+                className={`border border-blue-600 rounded-md text-blue-600 sm:w-24 w-36 flex justify-center items-center cursor-pointer hover:bg-blue-500 hover:text-white hover:font-bold ${
+                  adjust && orientacion !== 'automatic'
+                    ? 'bg-blue-600 text-white'
+                    : ''
+                } ${orientacion === 'automatic' ? 'cursor-not-allowed' : ''}`}
+                onClick={() => {
+                  setAdjust((prev) => !prev)
+                }}
+              >
+                Adjust
+              </span>
             </div>
           </div>
         )}
