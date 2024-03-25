@@ -7,7 +7,7 @@ const Home = (): JSX.Element => {
     <section className="bg-white py-12 sm:py-16 lg:py-20">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-lg">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-slate-800 sm:text-4xl xl:text-5xl">
+          <h2 className="text-3xl font-bold text-slate-800 sm:text-4xl xl:text-5xl capitalize">
             Extraction tools
           </h2>
           <p className="mt-4 text-base text-gray-700 sm:mt-8">
@@ -17,7 +17,7 @@ const Home = (): JSX.Element => {
         <div className="sm:col-gap-12 row-gap-12 md:ga mt-10 grid grid-cols-1 sm:mt-16 sm:grid-cols-2 md:grid-cols-3 xl:mt-20">
           <Link
             to={`/extractTextPDF/${id}`}
-            className="md:border-b-2 border-sky-500 md:shadow-lg m-2 md:p-8 lg:p-12"
+            className="md:border-b-2 border-sky-500 md:shadow m-2 md:p-8 lg:p-12"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +39,7 @@ const Home = (): JSX.Element => {
               <path d="M15 19l2 2l4 -4" />
             </svg>
 
-            <h3 className="mt-10 text-xl font-bold text-slate-800">
+            <h3 className="mt-10 text-xl font-bold text-slate-800 capitalize">
               ExtractoPDF
             </h3>
             <p className="mt-5 text-base text-gray-700">
@@ -48,7 +48,7 @@ const Home = (): JSX.Element => {
           </Link>
           <Link
             to={`/extractTextDOCX/${id}`}
-            className="md:border-b-2 border-sky-500 md:shadow-lg m-2 md:p-8 lg:p-12"
+            className="md:border-b-2 border-sky-500 md:shadow m-2 md:p-8 lg:p-12"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -71,7 +71,7 @@ const Home = (): JSX.Element => {
               <path d="M19.5 15l3 6" />
               <path d="M19.5 21l3 -6" />
             </svg>
-            <h3 className="mt-10 text-xl font-bold text-slate-800">
+            <h3 className="mt-10 text-xl font-bold text-slate-800 capitalize">
               ExtractoDoc
             </h3>
             <p className="mt-5 text-base text-gray-700">
@@ -80,7 +80,7 @@ const Home = (): JSX.Element => {
           </Link>
           <Link
             to={`/convertImgToPdf/${id}`}
-            className="md:border-b-2 border-sky-500 md:shadow-lg m-2 md:p-8 lg:p-12"
+            className="md:border-b-2 border-sky-500 md:shadow m-2 md:p-8 lg:p-12"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +102,7 @@ const Home = (): JSX.Element => {
               <path d="M20 15h-3v6" />
               <path d="M11 15v6h1a2 2 0 0 0 2 -2v-2a2 2 0 0 0 -2 -2h-1z" />
             </svg>
-            <h3 className="mt-10 text-xl font-bold text-slate-800 uppercase">
+            <h3 className="mt-10 text-xl font-bold text-slate-800 capitalize">
               ConvertImgToPdf
             </h3>
             <p className="mt-5 text-base text-gray-700">
@@ -111,7 +111,7 @@ const Home = (): JSX.Element => {
           </Link>
           <Link
             to={`/convertImgToWord/${id}`}
-            className="md:border-b-2 border-sky-500 md:shadow-lg m-2 md:p-8 lg:p-12"
+            className="md:border-b-2 border-sky-500 md:shadow m-2 md:p-8 lg:p-12"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -134,7 +134,7 @@ const Home = (): JSX.Element => {
               <path d="M19.5 15l3 6" />
               <path d="M19.5 21l3 -6" />
             </svg>
-            <h3 className="mt-10 text-xl font-bold text-slate-800 uppercase">
+            <h3 className="mt-10 text-xl font-bold text-slate-800 capitalize">
               ConvertImgToWord
             </h3>
             <p className="mt-5 text-base text-gray-700">
@@ -143,7 +143,7 @@ const Home = (): JSX.Element => {
           </Link>
           <Link
             to={`/extractImage/${id}`}
-            className="md:border-b-2 border-sky-500 md:shadow-lg m-2 md:p-8 lg:p-12"
+            className="md:border-b-2 border-sky-500 md:shadow m-2 md:p-8 lg:p-12"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -165,14 +165,45 @@ const Home = (): JSX.Element => {
               <path d="M20 15h-3v6" />
               <path d="M11 15v6h1a2 2 0 0 0 2 -2v-2a2 2 0 0 0 -2 -2h-1z" />
             </svg>
-            <h3 className="mt-10 text-xl font-bold text-slate-800">ImageOut</h3>
+            <h3 className="mt-10 text-xl font-bold text-slate-800 capitalize">ImageOut</h3>
             <p className="mt-5 text-base text-gray-700">
               Extract images from a DOCX
             </p>
           </Link>
           <Link
+            to={`/image-Optimization/${id}`}
+            className="md:border-b-2 border-sky-500 md:shadow m-2 md:p-8 lg:p-12"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={46}
+              height={46}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="icon icon-tabler icons-tabler-outline icon-tabler-photo-scan text-sky-400"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M15 8h.01" />
+              <path d="M6 13l2.644 -2.644a1.21 1.21 0 0 1 1.712 0l3.644 3.644" />
+              <path d="M13 13l1.644 -1.644a1.21 1.21 0 0 1 1.712 0l1.644 1.644" />
+              <path d="M4 8v-2a2 2 0 0 1 2 -2h2" />
+              <path d="M4 16v2a2 2 0 0 0 2 2h2" />
+              <path d="M16 4h2a2 2 0 0 1 2 2v2" />
+              <path d="M16 20h2a2 2 0 0 0 2 -2v-2" />
+            </svg>
+
+            <h3 className="mt-10 text-xl font-bold text-slate-800 capitalize">
+              imageOptimization
+            </h3>
+            <p className="mt-5 text-base text-gray-700">image Optimization</p>
+          </Link>
+          <Link
             to={`/convertSVG/${id}`}
-            className="md:border-b-2 border-sky-500 md:shadow-lg m-2 md:p-8 lg:p-12"
+            className="md:border-b-2 border-sky-500 md:shadow m-2 md:p-8 lg:p-12"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -194,7 +225,7 @@ const Home = (): JSX.Element => {
               <path d="M20 15h-1a2 2 0 0 0 -2 2v2a2 2 0 0 0 2 2h1v-3" />
             </svg>
 
-            <h3 className="mt-10 text-xl font-bold text-slate-800">
+            <h3 className="mt-10 text-xl font-bold text-slate-800 capitalize">
               SVGConvert
             </h3>
             <p className="mt-5 text-base text-gray-700">

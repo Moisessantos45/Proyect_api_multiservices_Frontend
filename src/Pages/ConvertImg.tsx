@@ -25,6 +25,7 @@ const ConvertImg = (): JSX.Element => {
   const [elementSelected, setElementSelected] = useState<number>(-1)
   const params = useParams()
   const { id } = params
+
   const tipos: Types = {
     png: 'png',
     jpeg: 'jpeg',
@@ -80,42 +81,38 @@ const ConvertImg = (): JSX.Element => {
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault()
-    if (typeSelect !== 'svg') {
-      await convertSvgImg()
-    } else {
-      saveSvg()
+    try {
+      if (typeSelect !== 'svg') {
+        await convertSvgImg()
+      } else {
+        saveSvg()
+      }
+    } catch (error) {
+      toastify('Error convert', false)
     }
   }
   return (
     <main className=" bg-white p-2 h-[82vh] sm:h-screen m-0 w-full flex justify-center items-center flex-wrap">
-      <div className="relative flex flex-col justify-center w-11/12 sm:w-7/12 lg:w-6/12 break-words mb-6 margin shadow-lg shadow-grey-400 rounded-xl border-0 max-h-[95vh] sm:min-h-[80vh]">
+      <div className="relative flex flex-col justify-center w-11/12 sm:w-7/12 md:w-10/12 lg:w-6/12 break-words mb-6 margin shadow-lg shadow-grey-400 rounded-xl border-0 max-h-[95vh] sm:min-h-[80vh] md:min-h-[60vh]">
         <div className="rounded-t mb-0 px-6 sm:py-1 py-4 text-center">
           <h6 className="text-neutral-700 mb-3 text-lg font-bold uppercase">
-            Convertidor de SVG
+            Convert to SVG
           </h6>
           <span className="mt-6 border-b-1 border-neutral-500" />
         </div>
         <div className="flex margin w-11/12 flex-col items-center justify-center rounded-lg bg-slate-50 border-4 border-dashed">
           <textarea
-            className=" sm:min-h-[45vh] min-h-[35vh] w-full bg-transparent border-none outline-none rounded-md"
+            className=" sm:min-h-[45vh] md:min-h-[40vh] min-h-[35vh] w-full bg-transparent border-none outline-none rounded-md"
             name="file"
             onChange={handelChange}
           />
         </div>
-        <form
-          className="text-center mt-3 sm:p-1 p-5"
-          onSubmit={(e) => {
-            e.preventDefault()
-            handelSubmit(e).catch((error) => {
-              console.error('Error during form submission:', error)
-            })
-          }}
-        >
+        <form className="text-center mt-3 sm:p-1 p-5" onSubmit={handelSubmit}>
           <button
             type="submit"
             className="bg-blue-600 text-neutral-200 active:bg-neutral-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-11/12 ease-linear transition-all duration-150"
           >
-            Convertir
+            Convert
           </button>
         </form>
         <article className="w-11/12 flex justify-evenly items-center m-auto sm:py-3 py-4">

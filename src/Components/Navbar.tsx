@@ -54,19 +54,19 @@ const Navbar = (): JSX.Element => {
       </label>
       <nav
         aria-label="Header Navigation"
-        className="flex max-h-0 w-full flex-col items-center justify-between overflow-hidden transition-all peer-checked:mt-8 peer-checked:max-h-56 md:ml-24 md:max-h-full md:flex-row md:items-start "
+        className="flex max-h-0 w-full flex-col items-center justify-between overflow-hidden transition-all peer-checked:mt-8 peer-checked:max-h-56 md:ml-24 md:max-h-full md:flex-row md:items-start"
       >
         <ul className="flex flex-col items-center space-y-2 md:ml-auto md:flex-row md:space-y-0">
           <li className="font-bold md:mr-12">
             <NavLink to={`/extractTextPDF/${id}`}>ExtractoPDF</NavLink>
           </li>
-          <li className="md:mr-12">
+          <li className="md:mr-12 font-bold">
             <NavLink to={`/extractTextDOCX/${id}`}>ExtractoDoc</NavLink>
           </li>
-          <li className="md:mr-12">
+          <li className="md:mr-12 font-bold">
             <NavLink to={`/extractImage/${id}`}>ImageOut</NavLink>
           </li>
-          <li>
+          <li className="md:mr-12 font-bold">
             <NavLink to={`/convertSVG/${id}`}>ConvertSvg</NavLink>
           </li>
         </ul>

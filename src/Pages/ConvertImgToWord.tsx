@@ -71,14 +71,14 @@ const ConvertImgToWord = (): JSX.Element => {
     setLoading(false)
   }
   return (
-    <main className=" w-full m-auto flex justify-center sm:items-center h-[85vh] sm:h-[95vh] sm:p-5 pt-3 scroollBat">
+    <main className=" w-full m-auto flex justify-center sm:items-center h-screen sm:h-[85vh] md:h-[99vh] sm:p-5 pt-3 scroollBat">
       {loading && <Loading />}
       <form
         className={`gap-1 ${
-          filesRender.length < 1
-            ? 'sm:w-5/12 lg:w-6/12 w-11/12 sm:min-h-[65vh] p-3 gap-3 h-[50vh] justify-center'
-            : 'sm:w-9/12 w-11/12 sm:min-h-[90vh] h-[75vh] flex-col justify-evenly'
-        }  shadow-md border border-slate-200 rounded-md p-2 flex sm:flex-row sm:justify-evenly items-center flex-wrap overflow-y-auto scroollBat`}
+          filesRender.length === 0
+            ? 'sm:w-5/12 md:w-8/12 lg:w-5/12 w-11/12 sm:min-h-[65vh] md:min-h-[55vh] lg:min-h-[65vh] p-3 gap-3 h-[50vh] justify-center'
+            : 'sm:w-9/12 w-11/12 sm:min-h-[95vh] md:min-h-[70vh] lg:min-h-[95vh] h-[80vh] flex-col justify-evenly'
+        }  shadow-md border border-slate-200 rounded-md p-2 flex sm:flex-row sm:justify-evenly items-center flex-wrap sm:overscroll-none overflow-y-auto scroollBat`}
         onSubmit={handelSubmit}
       >
         {filesRender.length > 1 && (
@@ -94,9 +94,9 @@ const ConvertImgToWord = (): JSX.Element => {
         )}
         <div
           className={` ${
-            filesRender.length < 1
-              ? ' w-10/12 sm:min-h-[45vh] h-[35vh]'
-              : 'sm:w-5/12 w-11/12 sm:h-[55vh] h-[18vh]'
+            filesRender.length === 0
+              ? ' w-10/12 sm:min-h-[45vh] md:min-h-[35vh] lg:min-h-[40vh] h-[35vh]'
+              : 'sm:w-7/12 md:w-10/12 lg:w-5/12 w-11/12 sm:h-[55vh] md:h-[30vh] lg:h-[60vh] h-[18vh]'
           } rounded-md border-2 border-indigo-500 border-dotted justify-center flex items-center bg-gray-50 p-4 shadow-md `}
         >
           <label
@@ -129,7 +129,7 @@ const ConvertImgToWord = (): JSX.Element => {
         </div>
         {filesRender.length > 0 && (
           <MagicMotion>
-            <article className=" sm:w-5/12 w-11/12 sm:h-[62vh] h-[35vh] flex justify-evenly flex-wrap gap-2 p-2 overflow-y-auto scroollBat border-2 border-indigo-500 border-dotted">
+            <article className="sm:w-5/12 w-11/12 md:w-10/12 lg:w-5/12 sm:h-[62vh] md:h-[30vh] lg:h-[60vh] h-[35vh] flex justify-evenly flex-wrap gap-2 p-2 overflow-y-auto scroollBat border-2 border-indigo-500 border-dotted">
               {filesRender.map((item, i) => (
                 <figure
                   key={i}
@@ -151,9 +151,9 @@ const ConvertImgToWord = (): JSX.Element => {
         )}
         <button
           type="submit"
-          className=" w-6/12 h-11 flex justify-center items-center p-3 rounded-md bg-blue-600 text-white font-bold"
+          className=" w-8/12 md:w-6/12 h-11 flex justify-center items-center p-3 rounded-md bg-blue-600 text-white font-bold"
         >
-          Convertir a WORD
+          Convert to WORD
         </button>
       </form>
     </main>

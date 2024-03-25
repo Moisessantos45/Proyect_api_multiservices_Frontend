@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid'
 import UrlBackend from '../Config/UrlBackend'
 import toastify from '../Utils/Utils'
 import Loading from '../Components/Loading'
@@ -20,6 +21,7 @@ const Extract = (): JSX.Element => {
   }
 
   useEffect(() => {
+    setData([])
     setFile([])
   }, [id])
 
@@ -30,43 +32,34 @@ const Extract = (): JSX.Element => {
     if (file == null || file.length === 0) {
       return
     }
-    setLoading(true)
-    const uplodasFiles = await Promise.all(
-      file.map(async (file) => {
-        const formData = new FormData()
+    try {
+      const idUser = uuidv4()
+      const formData = new FormData()
+      file.forEach((file) => {
         formData.append('docs', file)
-        try {
-          const response = await UrlBackend.post(
-            `extractTextContent/post_doc/${id}`,
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
-            }
-          )
-          const responseData = response.data
-          // console.log(responseData)
-          if (responseData === undefined) {
-            toastify('Error al obtener el archivo', false)
-            return
-          }
-          return responseData
-        } catch (error) {
-          // setFiles([])
-          toastify('Error al subir el archivo', false)
+      })
+
+      await UrlBackend.post(`extractTextContent/post_doc/${idUser}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
         }
       })
-    )
-    setLoading(false)
-    setData(uplodasFiles)
-    setFile([])
-    toastify('Texto extraido', true)
+      setFile([])
+      setLoading(true)
+
+      const response = await UrlBackend(`extractTextContent/${idUser}`)
+      const data: string[] = response.data !== null ? response.data : []
+
+      setData(data)
+      setLoading(false)
+      toastify('Texto extraido', true)
+    } catch (error) {
+      toastify('Error al subir el archivo', false)
+    }
   }
 
   const copyData = async (data: string): Promise<void> => {
-    navigator.clipboard.writeText(data).catch((e) => {
-      console.error('Error al copiar el texto', e)
+    navigator.clipboard.writeText(data).catch((_e) => {
       toastify('Error al copiar', true)
     })
     toastify('Texto copiado', true)
@@ -83,19 +76,19 @@ const Extract = (): JSX.Element => {
     <main className=" bg-white p-2 m-0 w-full flex justify-center h-[83vh] sm:min-h-[99vh] items-center flex-wrap overflow-y-auto scroollBat">
       {loading && <Loading />}
       <div
-        className={`relative flex flex-col justify-center w-10/12 sm:w-7/12 lg:w-5/12 break-words mb-6 margin shadow-lg shadow-grey-400 rounded-lg border-0 max-h-[39vh] ${
+        className={`relative flex flex-col justify-center w-10/12 sm:w-7/12 md:w-10/12 lg:w-5/12 break-words mb-6 margin shadow-lg shadow-grey-400 rounded-lg border-0 ${
           file !== null && file?.length > 0
-            ? 'sm:min-h-[79vh] min-h-[60vh]'
-            : 'sm:min-h-[59vh]'
+            ? 'sm:min-h-[79vh] md:min-h-[90vh] min-h-[60vh]'
+            : 'sm:min-h-[65vh] md:min-h-[40vh]'
         }  `}
       >
         <div className="rounded-t mb-0 px-6 py-6 text-center">
           <h6 className="text-neutral-700 mb-3 text-lg font-bold uppercase">
-            Extractor de texto
+            Text extractor
           </h6>
           <span className="mt-6 border-b-1 border-neutral-500" />
         </div>
-        <div className="flex margin w-11/12 flex-col items-center justify-center rounded-lg bg-slate-50 border-4 border-dashed h-32">
+        <div className="flex margin w-11/12 flex-col items-center justify-center rounded-lg bg-slate-50 border-4 border-dashed h-32 md:min-h-[35vh]">
           <input
             className="sr-only"
             type="file"
@@ -111,67 +104,61 @@ const Extract = (): JSX.Element => {
           />
           <label
             htmlFor="file"
-            className="relative flex min-h-32 items-center justify-center rounded-md border-[#e0e0e0] p-8 text-center flex-col cursor-pointer m-auto w-full"
+            className="relative flex min-h-32 md:min-h-[35vh] items-center justify-center rounded-md border-[#e0e0e0] p-8 text-center flex-col cursor-pointer m-auto w-full"
           >
             <span className="mb-2 block text-xl bg-blue-500 rounded-md p-1 font-semibold text-white">
               Drop files here
             </span>
           </label>
         </div>
-        <article className=" w-full m-auto p-4 gap-2 sm:max-h-28 flex flex-col overflow-y-auto scroollBat">
-          {file?.map((item, i) => (
-            <div className="rounded-md bg-[#F5F7FB] py-2 px-8" key={i}>
-              <div className="flex items-center justify-between">
-                <span className="truncate pr-2 text-base font-medium text-[#07074D]">
-                  {`${item.name}`}
-                </span>
-                <button
-                  type="button"
-                  className="text-[#07074D]"
-                  onClick={() => {
-                    deleteFile(i)
-                  }}
-                >
-                  <svg
-                    width={15}
-                    height={15}
-                    viewBox="0 0 10 10"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+        {file !== null && (
+          <article className=" w-full m-auto p-4 gap-2 sm:max-h-28 flex flex-col overflow-y-auto scroollBat">
+            {file.map((item, i) => (
+              <div className="rounded-md bg-[#F5F7FB] py-2 px-8" key={i}>
+                <div className="flex items-center justify-between">
+                  <span className="truncate pr-2 text-base font-medium text-[#07074D]">
+                    {`${item.name}`}
+                  </span>
+                  <button
+                    type="button"
+                    className="text-[#07074D]"
+                    onClick={() => {
+                      deleteFile(i)
+                    }}
                   >
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M0.279337 0.279338C0.651787 -0.0931121 1.25565 -0.0931121 1.6281 0.279338L9.72066 8.3719C10.0931 8.74435 10.0931 9.34821 9.72066 9.72066C9.34821 10.0931 8.74435 10.0931 8.3719 9.72066L0.279337 1.6281C-0.0931125 1.25565 -0.0931125 0.651788 0.279337 0.279338Z"
-                      fill="currentColor"
-                    />
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M0.279337 9.72066C-0.0931125 9.34821 -0.0931125 8.74435 0.279337 8.3719L8.3719 0.279338C8.74435 -0.0931127 9.34821 -0.0931123 9.72066 0.279338C10.0931 0.651787 10.0931 1.25565 9.72066 1.6281L1.6281 9.72066C1.25565 10.0931 0.651787 10.0931 0.279337 9.72066Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </button>
+                    <svg
+                      width={15}
+                      height={15}
+                      viewBox="0 0 10 10"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M0.279337 0.279338C0.651787 -0.0931121 1.25565 -0.0931121 1.6281 0.279338L9.72066 8.3719C10.0931 8.74435 10.0931 9.34821 9.72066 9.72066C9.34821 10.0931 8.74435 10.0931 8.3719 9.72066L0.279337 1.6281C-0.0931125 1.25565 -0.0931125 0.651788 0.279337 0.279338Z"
+                        fill="currentColor"
+                      />
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M0.279337 9.72066C-0.0931125 9.34821 -0.0931125 8.74435 0.279337 8.3719L8.3719 0.279338C8.74435 -0.0931127 9.34821 -0.0931123 9.72066 0.279338C10.0931 0.651787 10.0931 1.25565 9.72066 1.6281L1.6281 9.72066C1.25565 10.0931 0.651787 10.0931 0.279337 9.72066Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </article>
+            ))}
+          </article>
+        )}
 
-        <form
-          className="text-center p-2"
-          onSubmit={(e) => {
-            e.preventDefault()
-            handelSubmit(e).catch((error) => {
-              console.error('Error during form submission:', error)
-            })
-          }}
-        >
+        <form className="text-center p-2" onSubmit={handelSubmit}>
           <button
             type="submit"
             className="bg-blue-600 text-neutral-200 active:bg-neutral-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-11/12 ease-linear transition-all duration-150"
           >
-            Iniciar
+            Start
           </button>
         </form>
       </div>
@@ -179,36 +166,37 @@ const Extract = (): JSX.Element => {
         {dataDoc.length > 0 && (
           <figure className="margin m-2 p-2 w-11/12 gap-2 flex justify-evenly items-center flex-wrap ">
             {dataDoc.map((item, i) => (
-              <>
-                <article className=" w-11/12 break-all break-words shadow-lg p-2 flex shadow-grey-400 rounded-xl">
-                  <p key={i}>{item.substring(0, 350) + '...'}</p>
-                  <button
-                    className=" w-9 h-9 flex justify-center items-center m-1"
-                    onClick={() => {
-                      copyData(item).catch((err) => {
-                        console.error('Error al copiar el texto', err)
-                      })
-                    }}
+              <article
+                className=" w-11/12 break-all break-words shadow-lg p-2 flex shadow-grey-400 rounded-xl"
+                key={i}
+              >
+                <p>{item.substring(0, 350) + '...'}</p>
+                <button
+                  className=" w-9 h-9 flex justify-center items-center m-1"
+                  onClick={() => {
+                    copyData(item).catch((_err) => {
+                      toastify('Error al copiar el texto', false)
+                    })
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="icon icon-tabler icon-tabler-copy text-sky-400"
+                    width={30}
+                    height={30}
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="icon icon-tabler icon-tabler-copy text-sky-400"
-                      width={30}
-                      height={30}
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" />
-                      <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
-                    </svg>
-                  </button>
-                </article>
-              </>
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" />
+                    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+                  </svg>
+                </button>
+              </article>
             ))}
           </figure>
         )}

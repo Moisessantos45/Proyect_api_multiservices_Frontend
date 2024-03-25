@@ -6,6 +6,7 @@ import ExtractContent from './Pages/ExtractContent'
 import ConvertImg from './Pages/ConvertImg'
 import ConvertImgToPdf from './Pages/ConvertImgToPdf'
 import ConvertImgToWord from './Pages/ConvertImgToWord'
+import ImageOptimization from './Pages/ImageOptimization'
 
 const App = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const App = createBrowserRouter([
       {
         path: 'convertImgToPdf/:id',
         element: <ConvertImgToPdf />
+      },
+      {
+        path: 'image-Optimization/:id',
+        element: <ImageOptimization />
       },
       {
         path: 'convertImgToWord/:id',
