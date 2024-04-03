@@ -50,6 +50,8 @@ const ImageOptimization = (): JSX.Element => {
       return
     }
     try {
+      toastify('Uploading images', true)
+      setLoading(true)
       const formData = new FormData()
       files.forEach((file) => {
         formData.append('images', file)
@@ -70,7 +72,6 @@ const ImageOptimization = (): JSX.Element => {
       toastify('Optimizing image', true)
       setFiles(null)
       setFilesRender([])
-      setLoading(true)
       const response = await UrlBackend(
         `imageOptimization/${idUser}?quality=${quality}`
       )
