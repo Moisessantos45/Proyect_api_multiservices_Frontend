@@ -7,6 +7,7 @@ import ConvertImg from './Pages/ConvertImg'
 import ConvertImgToPdf from './Pages/ConvertImgToPdf'
 import ConvertImgToWord from './Pages/ConvertImgToWord'
 import ImageOptimization from './Pages/ImageOptimization'
+import MergePdfs from './Pages/MergePdfs'
 
 const App = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const App = createBrowserRouter([
       {
         path: 'convertImgToWord/:id',
         element: <ConvertImgToWord />
+      },
+      {
+        path: 'mergePdfs/:id',
+        element: <MergePdfs />
       }
     ]
   }

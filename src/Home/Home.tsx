@@ -16,6 +16,37 @@ const Home = (): JSX.Element => {
         </div>
         <div className="sm:col-gap-12 row-gap-12 md:ga mt-10 grid grid-cols-1 sm:mt-16 sm:grid-cols-2 md:grid-cols-3 xl:mt-20">
           <Link
+            to={`/mergePdfs/${id}`}
+            className="md:border-b-2 border-sky-500 md:shadow m-2 md:p-8 lg:p-12"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="icon icon-tabler icon-tabler-photo-check text-sky-400"
+              width={46}
+              height={46}
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M15 8h.01" />
+              <path d="M11.5 21h-5.5a3 3 0 0 1 -3 -3v-12a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v7" />
+              <path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l4 4" />
+              <path d="M14 14l1 -1c.928 -.893 2.072 -.893 3 0l.5 .5" />
+              <path d="M15 19l2 2l4 -4" />
+            </svg>
+
+            <h3 className="mt-10 text-xl font-bold text-slate-800 capitalize">
+              merge <span className=" uppercase">Pdf</span>s
+            </h3>
+            <p className="mt-5 text-base text-gray-700">
+              Merge multiple PDFs into one
+            </p>
+          </Link>
+          <Link
             to={`/extractTextPDF/${id}`}
             className="md:border-b-2 border-sky-500 md:shadow m-2 md:p-8 lg:p-12"
           >
@@ -40,7 +71,7 @@ const Home = (): JSX.Element => {
             </svg>
 
             <h3 className="mt-10 text-xl font-bold text-slate-800 capitalize">
-              ExtractoPDF
+              Extrac to PDF
             </h3>
             <p className="mt-5 text-base text-gray-700">
               Extract text from a PDF
@@ -72,7 +103,7 @@ const Home = (): JSX.Element => {
               <path d="M19.5 21l3 -6" />
             </svg>
             <h3 className="mt-10 text-xl font-bold text-slate-800 capitalize">
-              ExtractoDoc
+              Extrac to Doc
             </h3>
             <p className="mt-5 text-base text-gray-700">
               Extract text from a DOCX
@@ -103,7 +134,7 @@ const Home = (): JSX.Element => {
               <path d="M11 15v6h1a2 2 0 0 0 2 -2v-2a2 2 0 0 0 -2 -2h-1z" />
             </svg>
             <h3 className="mt-10 text-xl font-bold text-slate-800 capitalize">
-              ConvertImgToPdf
+              Convert Img To Pdf
             </h3>
             <p className="mt-5 text-base text-gray-700">
               Convert images to PDF
@@ -135,7 +166,7 @@ const Home = (): JSX.Element => {
               <path d="M19.5 21l3 -6" />
             </svg>
             <h3 className="mt-10 text-xl font-bold text-slate-800 capitalize">
-              ConvertImgToWord
+              Convert Img To Word
             </h3>
             <p className="mt-5 text-base text-gray-700">
               Convert images to WORD
@@ -165,7 +196,9 @@ const Home = (): JSX.Element => {
               <path d="M20 15h-3v6" />
               <path d="M11 15v6h1a2 2 0 0 0 2 -2v-2a2 2 0 0 0 -2 -2h-1z" />
             </svg>
-            <h3 className="mt-10 text-xl font-bold text-slate-800 capitalize">ImageOut</h3>
+            <h3 className="mt-10 text-xl font-bold text-slate-800 capitalize">
+              ImageOut
+            </h3>
             <p className="mt-5 text-base text-gray-700">
               Extract images from a DOCX
             </p>
@@ -197,7 +230,7 @@ const Home = (): JSX.Element => {
             </svg>
 
             <h3 className="mt-10 text-xl font-bold text-slate-800 capitalize">
-              imageOptimization
+              image Optimization
             </h3>
             <p className="mt-5 text-base text-gray-700">image Optimization</p>
           </Link>
@@ -226,7 +259,7 @@ const Home = (): JSX.Element => {
             </svg>
 
             <h3 className="mt-10 text-xl font-bold text-slate-800 capitalize">
-              SVGConvert
+              SVG Convert
             </h3>
             <p className="mt-5 text-base text-gray-700">
               Convert SVG to PNG, JPG
